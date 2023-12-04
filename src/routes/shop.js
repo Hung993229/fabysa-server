@@ -9,6 +9,10 @@ router.post(
 );
 // getPost
 router.get("/san-pham", shopController.getSanPham);
+// getspDan
+router.get("/san-pham-dan", shopController.getSanPhamDan);
+router.get("/kho-tong-si", shopController.getKhoTongSi);
+
 // putPost
 router.put("/san-pham/:id", shopController.putSanPham);
 // deletePost

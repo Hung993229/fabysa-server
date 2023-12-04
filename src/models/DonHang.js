@@ -12,6 +12,9 @@ const DonHangSchema = new Schema(
         donGia: {
             type: Number,
         },
+        giaNhap: {
+            type: Number,
+        },
         slSP: {
             type: Number,
         },
@@ -28,6 +31,9 @@ const DonHangSchema = new Schema(
             type: String,
         },
         // nguoimua
+        idPost: {
+            type: String,
+        },
         sdtNguoiMua: {
             type: String,
         },
@@ -39,24 +45,16 @@ const DonHangSchema = new Schema(
             type: String,
         },
         // Ctv
-        userCTV: { type: String },
-        hhCtv: { type: Number },
-        // hoahongSan
-        phiSan: {
-            type: Number,
-        },
-        hhSan: {
-            type: Number,
-        },
+        affiliate: { type: String },
+        hoahongCTV: { type: Number },
         // nguoi ban
         giamTru: { type: String },
         // trang thi 1-dathang 2-dang giao 3-da giao 4-huydon
         trangThaiDH: {
             type: Number,
         },
-        usershop: {
-            type: Schema.Types.ObjectId,
-            ref: "users",
+        user: {
+            type: String,
         },
     },
     { timestamps: true }

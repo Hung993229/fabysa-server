@@ -25,9 +25,12 @@ const SanPhamSchema = new Schema(
             type: String,
         },
         giaNhap: {
-            type: String,
-        }, 
+            type: Number,
+        },
         hoahongCTV: {
+            type: Number,
+        },
+        TenShop: {
             type: String,
         },
 
@@ -41,6 +44,9 @@ const SanPhamSchema = new Schema(
             type: String,
         },
         vaiTro: {
+            type: String,
+        },
+        affiliate: {
             type: String,
         },
 

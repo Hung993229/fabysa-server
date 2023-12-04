@@ -13,10 +13,12 @@ const shopController = {
             thongTinSanPham,
             giaNhap,
             hoahongCTV,
+            TenShop,
             xa,
             huyen,
             tinh,
             vaiTro,
+            affiliate,
             user,
         } = req.body;
 
@@ -31,10 +33,12 @@ const shopController = {
                 thongTinSanPham,
                 giaNhap,
                 hoahongCTV,
+                TenShop,
                 xa,
                 huyen,
                 tinh,
                 vaiTro,
+                affiliate,
                 user,
             });
 
@@ -54,7 +58,23 @@ const shopController = {
         }
     },
     getSanPham: async (req, res) => {
-        const { huyen, user } = req.query;
+        const { user } = req.query;
+        try {
+            const allSanpham = await SanPham.find({
+                user: user,
+            });
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                allSanpham,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
+    getSanPhamDan: async (req, res) => {
+        const { huyen } = req.query;
         try {
             const allSanpham = await SanPham.find({
                 $or: [
@@ -64,7 +84,7 @@ const shopController = {
                             { sanPhamDan: "Sản Phẩm Dẫn" },
                         ],
                     },
-                    { user: user },
+                    { sanPhamDan: "Sản Phẩm Dẫn" },
                     { vaiTro: 2 },
                 ],
             });
@@ -78,6 +98,27 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
+    getKhoTongSi: async (req, res) => {
+        const { huyen } = req.query;
+        try {
+            const allSanpham = await SanPham.find({
+                $and: [
+                    { huyen: huyen },
+                    { sanPhamDan: "Sản Phẩm Khác" },
+                    { affiliate: "" },
+                ],
+            });
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                allSanpham,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
+
     putSanPham: async (req, res) => {
         const {
             AnhSanPham,
@@ -89,10 +130,12 @@ const shopController = {
             thongTinSanPham,
             giaNhap,
             hoahongCTV,
+            TenShop,
             xa,
             huyen,
             tinh,
             vaiTro,
+            affiliate,
             user,
         } = req.body;
         try {
@@ -106,10 +149,12 @@ const shopController = {
                 thongTinSanPham,
                 giaNhap,
                 hoahongCTV,
+                TenShop,
                 xa,
                 huyen,
                 tinh,
                 vaiTro,
+                affiliate,
                 user,
             };
 
@@ -331,53 +376,50 @@ const shopController = {
             tenSp,
             linkSp,
             donGia,
+            giaNhap,
             slSP,
             thanhTien,
             goldDaTT,
             soTienCanTT,
             phuongThucTT,
             // nguoimua
+            idPost,
             sdtNguoiMua,
             hoTenNguoiMua,
             dcNguoiNMua,
             ghiChuNguoiMua,
             // Ctv
-            userCTV,
-            hhCTV,
-            // hoahongSan
-            phiSan,
-            hhSan,
+            affiliate,
+            hoahongCTV,
             // nguoi ban
             giamTru,
-
             trangThaiDH,
-            usershop,
+            user,
         } = req.body;
         try {
             const newDonHang = new DonHang({
                 tenSp,
                 linkSp,
                 donGia,
+                giaNhap,
                 slSP,
                 thanhTien,
                 goldDaTT,
                 soTienCanTT,
                 phuongThucTT,
                 // nguoimua
+                idPost,
                 sdtNguoiMua,
                 hoTenNguoiMua,
                 dcNguoiNMua,
                 ghiChuNguoiMua,
                 // Ctv
-                userCTV,
-                hhCTV,
-                // hoahongSan
-                phiSan,
-                hhSan,
+                affiliate,
+                hoahongCTV,
                 // nguoi ban
                 giamTru,
                 trangThaiDH,
-                usershop,
+                user,
             });
 
             await newDonHang.save();
@@ -392,10 +434,27 @@ const shopController = {
         }
     },
     getDonHang: async (req, res) => {
-        const { user } = req.query;
+        const { userId, trangThaiDH } = req.query;
+        console.log("user", userId);
+        console.log("trangThaiDH", trangThaiDH);
         try {
             const allDonHang = await DonHang.find({
-                user: user,
+                $or: [
+                    {
+                        $and: [
+                            {
+                                user: userId,
+                            },
+                            { trangThaiDH: trangThaiDH },
+                        ],
+                    },
+                    {
+                        $and: [
+                            { affiliate: userId },
+                            { trangThaiDH: trangThaiDH },
+                        ],
+                    },
+                ],
             });
             return res.status(200).json({
                 success: true,
@@ -412,52 +471,50 @@ const shopController = {
             tenSp,
             linkSp,
             donGia,
+            giaNhap,
             slSP,
             thanhTien,
             goldDaTT,
             soTienCanTT,
             phuongThucTT,
             // nguoimua
+            idPost,
             sdtNguoiMua,
             hoTenNguoiMua,
             dcNguoiNMua,
             ghiChuNguoiMua,
             // Ctv
-            userCTV,
-            hhCTV,
-            // hoahongSan
-            phiSan,
-            hhSan,
+            affiliate,
+            hoahongCTV,
             // nguoi ban
             giamTru,
             trangThaiDH,
-            usershop,
+            user,
         } = req.body;
         try {
             let updateDonHang = {
                 tenSp,
                 linkSp,
                 donGia,
+                giaNhap,
                 slSP,
                 thanhTien,
                 goldDaTT,
                 soTienCanTT,
                 phuongThucTT,
                 // nguoimua
+                idPost,
                 sdtNguoiMua,
                 hoTenNguoiMua,
                 dcNguoiNMua,
                 ghiChuNguoiMua,
                 // Ctv
-                userCTV,
-                hhCTV,
-                // hoahongSan
-                phiSan,
-                hhSan,
+                affiliate,
+                hoahongCTV,
                 // nguoi ban
                 giamTru,
                 trangThaiDH,
-                usershop,
+                user,
             };
 
             const updateDonHangCondition = {
