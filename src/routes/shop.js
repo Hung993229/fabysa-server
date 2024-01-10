@@ -32,11 +32,12 @@ router.get(
     shopController.getThongTinShop
 );
 // // getAllThongTinShop
-// router.get(
-//     "/thong-tin-shop",
-//     // middlewareController.verifyToken,
-//     shopController.getAllThongTinShop
-// );
+
+router.get(
+    "/thong-tin-all-shop",
+    // middlewareController.verifyToken,
+    shopController.getAllThongTinShop
+);
 // putThongTinShop
 router.put("/thong-tin-shop/:id", shopController.putThongTinShop);
 // deleteThongTinShop

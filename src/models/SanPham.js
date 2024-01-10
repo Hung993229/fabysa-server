@@ -49,6 +49,9 @@ const SanPhamSchema = new Schema(
         affiliate: {
             type: String,
         },
+        idtk:{
+            type: String,
+        },
 
         user: {
             type: Schema.Types.ObjectId,

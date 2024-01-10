@@ -19,6 +19,7 @@ const shopController = {
             tinh,
             vaiTro,
             affiliate,
+            idtk,
             user,
         } = req.body;
 
@@ -39,6 +40,7 @@ const shopController = {
                 tinh,
                 vaiTro,
                 affiliate,
+                idtk,
                 user,
             });
 
@@ -99,13 +101,15 @@ const shopController = {
         }
     },
     getKhoTongSi: async (req, res) => {
-        const { huyen } = req.query;
+        const { huyen, user } = req.query;
+        console.log("user", user);
         try {
             const allSanpham = await SanPham.find({
                 $and: [
                     { huyen: huyen },
                     { sanPhamDan: "Sản Phẩm Khác" },
                     { affiliate: "" },
+                    { idtk: { $ne: user } },
                 ],
             });
             return res.status(200).json({
@@ -136,6 +140,7 @@ const shopController = {
             tinh,
             vaiTro,
             affiliate,
+            idtk,
             user,
         } = req.body;
         try {
@@ -155,6 +160,7 @@ const shopController = {
                 tinh,
                 vaiTro,
                 affiliate,
+                idtk,
                 user,
             };
 
@@ -217,7 +223,10 @@ const shopController = {
             huyen,
             tinh,
             cash,
-            taikhoan,
+
+            idNhanVien,
+            linkZalo,
+            linkFacebook,
             user,
             vaiTro,
         } = req.body;
@@ -233,7 +242,10 @@ const shopController = {
                 huyen,
                 tinh,
                 cash,
-                taikhoan,
+
+                idNhanVien,
+                linkZalo,
+                linkFacebook,
                 vaiTro,
                 user,
             });
@@ -255,10 +267,11 @@ const shopController = {
     },
     // Get Shop
     getThongTinShop: async (req, res) => {
-        const { userId } = req.query;
+        const { id } = req.query;
+        console.log("id", id);
         try {
             const shop = await ThongTinShop.findOne({
-                user: userId,
+                _id: id,
             });
             return res.status(200).json({
                 success: true,
@@ -272,22 +285,22 @@ const shopController = {
     },
 
     // Get All Shop
-    // getAllThongTinShop: async (req, res) => {
-    //     const { user } = req.query;
-    //     try {
-    //         const sanpham = await ThongTinShop.find({
-    //             user: user,
-    //         });
-    //         return res.status(200).json({
-    //             success: true,
-    //             message: "Fetch thành công!",
-    //             sanpham,
-    //         });
-    //     } catch (err) {
-    //         console.log("err", err);
-    //         return res.status(500).json(err);
-    //     }
-    // },
+    getAllThongTinShop: async (req, res) => {
+        const { idShop } = req.query;
+        try {
+            const AllShop = await ThongTinShop.find({
+                $or: [{ user: idShop }, { idNhanVien: idShop }],
+            });
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                AllShop: AllShop,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
 
     // Put Shop
 
@@ -303,7 +316,10 @@ const shopController = {
             tinh,
             user,
             cash,
-            taikhoan,
+
+            idNhanVien,
+            linkZalo,
+            linkFacebook,
             vaiTro,
         } = req.body;
         try {
@@ -318,7 +334,11 @@ const shopController = {
                 tinh,
                 user,
                 cash,
-                taikhoan,
+
+                idNhanVien,
+
+                linkZalo,
+                linkFacebook,
                 vaiTro,
             };
 
@@ -434,8 +454,8 @@ const shopController = {
         }
     },
     getDonHang: async (req, res) => {
-        const { userId, trangThaiDH } = req.query;
-        console.log("user", userId);
+        const { idShop, trangThaiDH } = req.query;
+        console.log("user", idShop);
         console.log("trangThaiDH", trangThaiDH);
         try {
             const allDonHang = await DonHang.find({
@@ -443,14 +463,14 @@ const shopController = {
                     {
                         $and: [
                             {
-                                user: userId,
+                                user: idShop,
                             },
                             { trangThaiDH: trangThaiDH },
                         ],
                     },
                     {
                         $and: [
-                            { affiliate: userId },
+                            { affiliate: idShop },
                             { trangThaiDH: trangThaiDH },
                         ],
                     },

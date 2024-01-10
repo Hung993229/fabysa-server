@@ -29,7 +29,11 @@ const ThongTinShopSchema = new Schema(
         },
         cash: { type: Number },
         taikhoan: { type: Number },
-        vaiTro: { type: String },
+        idChuShop: { type: String },
+        idNhanVien: { type: String },
+        linkZalo: { type: String },
+        linkFacebook: { type: String },
+
         user: {
             type: Schema.Types.ObjectId,
             ref: "users",
