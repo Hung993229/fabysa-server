@@ -32,7 +32,7 @@ const SanPhamSchema = new Schema(
             type: String,
         },
         tinhTrang: {
-            type: Number,
+            type: String,
         },
         TenShop: {
             type: String,
