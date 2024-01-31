@@ -33,6 +33,8 @@ const ThongTinShopSchema = new Schema(
         idNhanVien: { type: String },
         linkZalo: { type: String },
         linkFacebook: { type: String },
+        khachSi: { type: Array },
+        khachCtv: { type: Array },
 
         user: {
             type: Schema.Types.ObjectId,

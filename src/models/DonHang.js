@@ -3,53 +3,16 @@ const Schema = mongoose.Schema;
 
 const DonHangSchema = new Schema(
     {
-        tenSp: {
-            type: String,
+        khachHang: {
+            type: Object,
         },
-        linkSp: {
-            type: String,
+        donHang: {
+            type: Array,
         },
-        donGia: {
-            type: Number,
-        },
-        giaNhap: {
-            type: Number,
-        },
-        slSP: {
-            type: Number,
-        },
-        thanhTien: {
-            type: Number,
-        },
-        goldDaTT: {
-            type: Number,
-        },
-        soTienCanTT: {
-            type: Number,
-        },
-        phuongThucTT: {
-            type: String,
-        },
-        // nguoimua
-        idPost: {
-            type: String,
-        },
-        sdtNguoiMua: {
-            type: String,
-        },
-        hoTenNguoiMua: { type: String },
-        dcNguoiNMua: {
-            type: String,
-        },
-        ghiChuNguoiMua: {
-            type: String,
-        },
-        // Ctv
-        affiliate: { type: String },
-        hoahongCTV: { type: Number },
-        // nguoi ban
-        giamTru: { type: String },
-        // trang thi 1-dathang 2-dang giao 3-da giao 4-huydon
+        idShop: { type: String },
+        idCtv: { type: String },
+        idKhachHang: { type: String },
+        // trang thai 1-dathang 2-dang giao 3-da giao 4-huydon 5-ctv chua tt hh 6-da tt hhong
         trangThaiDH: {
             type: Number,
         },

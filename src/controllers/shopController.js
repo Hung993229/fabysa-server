@@ -1,24 +1,26 @@
 const SanPham = require("../models/SanPham");
 const ThongTinShop = require("../models/ThongTinShop");
 const DonHang = require("../models/DonHang");
+const GioHang = require("../models/GioHang");
 const shopController = {
+    // San Pham
     addSanPham: async (req, res) => {
         const {
             AnhSanPham,
             TenSanPham,
+            nhomSanPham,
             giaKhuyenMai,
             giaNiemYet,
-            nhomSanPham,
-            sanPhamDan,
-            thongTinSanPham,
             giaNhap,
-            hoahongCTV,
+            giaCtv,
+            giaSi,
+            thongTinSanPham,
+            tinhTrang,
             TenShop,
             xa,
             huyen,
             tinh,
             vaiTro,
-            affiliate,
             idtk,
             user,
         } = req.body;
@@ -27,19 +29,19 @@ const shopController = {
             const newSanPham = new SanPham({
                 AnhSanPham,
                 TenSanPham,
+                nhomSanPham,
                 giaKhuyenMai,
                 giaNiemYet,
-                nhomSanPham,
-                sanPhamDan,
-                thongTinSanPham,
                 giaNhap,
-                hoahongCTV,
+                giaCtv,
+                giaSi,
+                thongTinSanPham,
+                tinhTrang,
                 TenShop,
                 xa,
                 huyen,
                 tinh,
                 vaiTro,
-                affiliate,
                 idtk,
                 user,
             });
@@ -102,7 +104,7 @@ const shopController = {
     },
     getKhoTongSi: async (req, res) => {
         const { huyen, user } = req.query;
-        console.log("user", user);
+
         try {
             const allSanpham = await SanPham.find({
                 $and: [
@@ -122,24 +124,43 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
+    getArrIdSanPham: async (req, res) => {
+        const arrIdSanPham = req.body;
+        try {
+            const arrSanpham = await SanPham.find({
+                _id: { $in: arrIdSanPham },
+            });
+            // {
+            // _id: { $in: arrIdSanPham.split(" ") },
+            // }
 
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                arrSanpham,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
     putSanPham: async (req, res) => {
         const {
             AnhSanPham,
             TenSanPham,
+            nhomSanPham,
             giaKhuyenMai,
             giaNiemYet,
-            nhomSanPham,
-            sanPhamDan,
-            thongTinSanPham,
             giaNhap,
-            hoahongCTV,
+            giaCtv,
+            giaSi,
+            thongTinSanPham,
+            tinhTrang,
             TenShop,
             xa,
             huyen,
             tinh,
             vaiTro,
-            affiliate,
             idtk,
             user,
         } = req.body;
@@ -147,19 +168,19 @@ const shopController = {
             let updateSanPham = {
                 AnhSanPham,
                 TenSanPham,
+                nhomSanPham,
                 giaKhuyenMai,
                 giaNiemYet,
-                nhomSanPham,
-                sanPhamDan,
-                thongTinSanPham,
                 giaNhap,
-                hoahongCTV,
+                giaCtv,
+                giaSi,
+                thongTinSanPham,
+                tinhTrang,
                 TenShop,
                 xa,
                 huyen,
                 tinh,
                 vaiTro,
-                affiliate,
                 idtk,
                 user,
             };
@@ -195,7 +216,6 @@ const shopController = {
             });
         }
     },
-    // delete shop
     deleteSanPham: async (req, res) => {
         try {
             const deleteSanPham = await SanPham.findByIdAndDelete(
@@ -210,8 +230,8 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
+    // San Pham
     // Thong Tin Shop
-    // Them Shop
     addThongTinShop: async (req, res) => {
         const {
             Banner,
@@ -223,10 +243,10 @@ const shopController = {
             huyen,
             tinh,
             cash,
-
             idNhanVien,
             linkZalo,
             linkFacebook,
+            khachSi,khachCtv,
             user,
             vaiTro,
         } = req.body;
@@ -247,6 +267,7 @@ const shopController = {
                 linkZalo,
                 linkFacebook,
                 vaiTro,
+                khachSi,khachCtv,
                 user,
             });
 
@@ -265,10 +286,9 @@ const shopController = {
             });
         }
     },
-    // Get Shop
     getThongTinShop: async (req, res) => {
         const { id } = req.query;
-        console.log("id", id);
+
         try {
             const shop = await ThongTinShop.findOne({
                 _id: id,
@@ -283,8 +303,6 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
-
-    // Get All Shop
     getAllThongTinShop: async (req, res) => {
         const { idShop } = req.query;
         try {
@@ -301,9 +319,6 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
-
-    // Put Shop
-
     putThongTinShop: async (req, res) => {
         const {
             Banner,
@@ -320,6 +335,7 @@ const shopController = {
             idNhanVien,
             linkZalo,
             linkFacebook,
+            khachSi,khachCtv,
             vaiTro,
         } = req.body;
         try {
@@ -339,6 +355,7 @@ const shopController = {
 
                 linkZalo,
                 linkFacebook,
+                khachSi,khachCtv,
                 vaiTro,
             };
 
@@ -373,8 +390,6 @@ const shopController = {
             });
         }
     },
-
-    // Delete Shop
     deleteThongTinShop: async (req, res) => {
         try {
             const deleteshop = await ThongTinShop.findByIdAndDelete(
@@ -389,55 +404,25 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
+    // Thong Tin Shop
     // Don Hang
-
     addDonHang: async (req, res) => {
         const {
-            tenSp,
-            linkSp,
-            donGia,
-            giaNhap,
-            slSP,
-            thanhTien,
-            goldDaTT,
-            soTienCanTT,
-            phuongThucTT,
-            // nguoimua
-            idPost,
-            sdtNguoiMua,
-            hoTenNguoiMua,
-            dcNguoiNMua,
-            ghiChuNguoiMua,
-            // Ctv
-            affiliate,
-            hoahongCTV,
-            // nguoi ban
-            giamTru,
+            khachHang,
+            donHang,
+            idShop,
+            idCtv,
+            idKhachHang,
             trangThaiDH,
             user,
         } = req.body;
         try {
             const newDonHang = new DonHang({
-                tenSp,
-                linkSp,
-                donGia,
-                giaNhap,
-                slSP,
-                thanhTien,
-                goldDaTT,
-                soTienCanTT,
-                phuongThucTT,
-                // nguoimua
-                idPost,
-                sdtNguoiMua,
-                hoTenNguoiMua,
-                dcNguoiNMua,
-                ghiChuNguoiMua,
-                // Ctv
-                affiliate,
-                hoahongCTV,
-                // nguoi ban
-                giamTru,
+                khachHang,
+                donHang,
+                idShop,
+                idCtv,
+                idKhachHang,
                 trangThaiDH,
                 user,
             });
@@ -455,25 +440,18 @@ const shopController = {
     },
     getDonHang: async (req, res) => {
         const { idShop, trangThaiDH } = req.query;
-        console.log("user", idShop);
-        console.log("trangThaiDH", trangThaiDH);
         try {
             const allDonHang = await DonHang.find({
-                $or: [
+                $and: [
                     {
-                        $and: [
+                        $or: [
                             {
-                                user: idShop,
+                                idShop: idShop,
                             },
-                            { trangThaiDH: trangThaiDH },
+                            { idCtv: idShop },
                         ],
                     },
-                    {
-                        $and: [
-                            { affiliate: idShop },
-                            { trangThaiDH: trangThaiDH },
-                        ],
-                    },
+                    { trangThaiDH: trangThaiDH },
                 ],
             });
             return res.status(200).json({
@@ -488,51 +466,22 @@ const shopController = {
     },
     putDonHang: async (req, res) => {
         const {
-            tenSp,
-            linkSp,
-            donGia,
-            giaNhap,
-            slSP,
-            thanhTien,
-            goldDaTT,
-            soTienCanTT,
-            phuongThucTT,
-            // nguoimua
-            idPost,
-            sdtNguoiMua,
-            hoTenNguoiMua,
-            dcNguoiNMua,
-            ghiChuNguoiMua,
-            // Ctv
-            affiliate,
-            hoahongCTV,
-            // nguoi ban
-            giamTru,
+            khachHang,
+            donHang,
+            idShop,
+            idCtv,
+            idKhachHang,
             trangThaiDH,
             user,
         } = req.body;
+
         try {
             let updateDonHang = {
-                tenSp,
-                linkSp,
-                donGia,
-                giaNhap,
-                slSP,
-                thanhTien,
-                goldDaTT,
-                soTienCanTT,
-                phuongThucTT,
-                // nguoimua
-                idPost,
-                sdtNguoiMua,
-                hoTenNguoiMua,
-                dcNguoiNMua,
-                ghiChuNguoiMua,
-                // Ctv
-                affiliate,
-                hoahongCTV,
-                // nguoi ban
-                giamTru,
+                khachHang,
+                donHang,
+                idShop,
+                idCtv,
+                idKhachHang,
                 trangThaiDH,
                 user,
             };
@@ -574,6 +523,110 @@ const shopController = {
             return res.status(500).json(err);
         }
     },
+    // Don Hang
+    // GioHang
+    addGioHang: async (req, res) => {
+        const { idShop, gioHang, user } = req.body;
+        try {
+            const newGioHang = new GioHang({ idShop, gioHang, user });
+
+            await newGioHang.save();
+
+            res.json({
+                success: true,
+                message: "Tao moi thanh Cong",
+                gioHang: newGioHang,
+            });
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    },
+    getAllGioHang: async (req, res) => {
+        const { user } = req.query;
+        try {
+            const allGioHang = await GioHang.find({ user: user });
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                allGioHang: allGioHang,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
+    getGioHang: async (req, res) => {
+        const { idShop, user } = req.query;
+
+        try {
+            const gioHang = await GioHang.findOne({
+                $and: [{ idShop: idShop }, { user: user }],
+            });
+            return res.status(200).json({
+                success: true,
+                message: "Fetch thành công!",
+                gioHang: gioHang,
+            });
+        } catch (err) {
+            console.log("err", err);
+            return res.status(500).json(err);
+        }
+    },
+    putGioHang: async (req, res) => {
+        const { idShop, gioHang, user } = req.body;
+        try {
+            let updateGioHang = {
+                idShop,
+                gioHang,
+                user,
+            };
+
+            const updateGioHangCondition = {
+                _id: req.params.id,
+            };
+
+            updateGioHang = await GioHang.findOneAndUpdate(
+                updateGioHangCondition,
+                updateGioHang,
+                {
+                    new: true,
+                }
+            );
+            // User not authorised to update post or post not found
+            if (!updateGioHang)
+                return res.status(401).json({
+                    success: false,
+                    message: "Post not found or user not authorised",
+                });
+
+            return res.json({
+                success: true,
+                message: "Cập nhật thành công!",
+                gioHang: updateGioHang,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+            });
+        }
+    },
+    deleteGioHang: async (req, res) => {
+        try {
+            const deleteGioHang = await GioHang.findByIdAndDelete(
+                req.params.id
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Delete thành công!",
+                gioHang: null,
+            });
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    },
+    // GioHang
 };
 
 module.exports = shopController;

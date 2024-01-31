@@ -1,28 +1,14 @@
 const yourstatus = require("../models/YourStatus");
 const yourStatusController = {
     addYourStatus: async (req, res) => {
-        const {
-            yourIdYeuCauKetNoi,
-            dongYKetNoi,
-            tuChoiKetNoi,
-            huyKetNoi,
-            hoTen,
-            namSinh,
-            queQuan,
-            dienThoai,
-            user,
-        } = req.body;
+        const { khachSi, sanPhamCtv, sanPhamSi, idShop, user } = req.body;
 
         try {
             const newYourStatus = new yourstatus({
-                yourIdYeuCauKetNoi,
-                dongYKetNoi,
-                tuChoiKetNoi,
-                huyKetNoi,
-                hoTen,
-                namSinh,
-                queQuan,
-                dienThoai,
+                khachSi,
+                sanPhamCtv,
+                sanPhamSi,
+                idShop,
                 user,
             });
 
@@ -48,7 +34,7 @@ const yourStatusController = {
                     {
                         user: req.params.id,
                     },
-                    { yourIdYeuCauKetNoi: req.params.id },
+                    { idShop: req.params.id },
                 ],
             });
             return res.status(200).json({
@@ -61,26 +47,13 @@ const yourStatusController = {
         }
     },
     putYourStatus: async (req, res) => {
-        const {
-            yourIdYeuCauKetNoi,
-            dongYKetNoi,
-            tuChoiKetNoi,
-            huyKetNoi,
-            hoTen,
-            namSinh,
-            queQuan,
-            user,
-        } = req.body;
+        const { khachSi, sanPhamCtv, sanPhamSi, idShop, user } = req.body;
         try {
             let updateYourStatus = {
-                yourIdYeuCauKetNoi,
-                dongYKetNoi,
-                tuChoiKetNoi,
-                huyKetNoi,
-                hoTen,
-                namSinh,
-                queQuan,
-                dienThoai,
+                khachSi,
+                sanPhamCtv,
+                sanPhamSi,
+                idShop,
                 user,
             };
 

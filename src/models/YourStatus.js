@@ -3,30 +3,10 @@ const Schema = mongoose.Schema;
 
 const yourstatusSchema = new Schema(
     {
-        yourIdYeuCauKetNoi: {
-            type: String
-        },
-        dongYKetNoi: {
-            type: String
-        },
-        tuChoiKetNoi: {
-            type: String
-        },
-        huyKetNoi: {
-            type: String
-        },
-        hoTen: {
-            type: String,
-        },
-        namSinh: {
-            type: String,
-        },
-        queQuan: {
-            type: String,
-        },
-        dienThoai: {
-            type: String,
-        },
+        khachSi: { type: Array },
+        sanPhamCtv: { type: Array },
+        sanPhamSi: { type: Array },
+        idShop: { type: String },
         user: {
             type: Schema.Types.ObjectId,
             ref: "users",
